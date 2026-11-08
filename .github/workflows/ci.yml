@@ -18,7 +18,7 @@ env:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && !contains(github.event.pull_request.labels.*.name, 'ci-hosted'))) && fromJSON('["self-hosted","Linux","X64","fresh","light"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -42,7 +42,7 @@ jobs:
           version: latest
 
   tidy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && !contains(github.event.pull_request.labels.*.name, 'ci-hosted'))) && fromJSON('["self-hosted","Linux","X64","fresh","light"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -57,7 +57,7 @@ jobs:
           git diff --exit-code go.mod go.sum
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && !contains(github.event.pull_request.labels.*.name, 'ci-hosted'))) && fromJSON('["self-hosted","Linux","X64","fresh","light"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -70,7 +70,7 @@ jobs:
         run: make build
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && !contains(github.event.pull_request.labels.*.name, 'ci-hosted'))) && fromJSON('["self-hosted","Linux","X64","fresh","light"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -83,7 +83,7 @@ jobs:
         run: go test -race ./...
 
   fuzz:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && !contains(github.event.pull_request.labels.*.name, 'ci-hosted'))) && fromJSON('["self-hosted","Linux","X64","fresh","heavy"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -96,7 +96,7 @@ jobs:
         run: ./scripts/fuzz.sh 5s
 
   vuln:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && !contains(github.event.pull_request.labels.*.name, 'ci-hosted'))) && fromJSON('["self-hosted","Linux","X64","fresh","light"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
